@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\OrganisationController;
-
+use App\Http\Controllers\Admin\OrganisationStructureController;
+use App\Models\OrganisationStructure;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,8 @@ Route::prefix('v1')->group(function () {
             Route::patch('/{id}', [OrganisationController::class, 'update'])->name('update');
             Route::delete('/{id}', [OrganisationController::class, 'destroy'])->name('destroy');
         });
+
+        Route::get('organisation-structures', [OrganisationStructureController::class, 'index']);
+        Route::post('organization/{organizationId}/organization-structures', [OrganisationStructureController::class, 'store']);
     });
 });

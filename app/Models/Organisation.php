@@ -15,4 +15,10 @@ class Organisation extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    public function organisationStructures()
+    {
+        return $this->belongsToMany(OrganisationStructure::class, 'organisation_structure_organisation')
+            ->withTimestamps();
+    }
 }
