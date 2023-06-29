@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -29,6 +30,7 @@ class Handler extends ExceptionHandler
         NotFoundException::class,
         UnauthorizedException::class,
         AuthenticationException::class,
+        RouteNotFoundException::class,
     ];
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
@@ -104,6 +106,10 @@ class Handler extends ExceptionHandler
         }
         if ($exception instanceof QueryException) {
             return $this->serverErrorAlert('There is a fatal query error', $exception);
+        }
+
+        if ($exception instanceof RouteNotFoundException) {
+            return $this->unauthorisedRequestAlert("Unauthenticated");
         }
 
         return $this->serverErrorAlert('An error occurred processing your request, Try again later... ', $exception);
