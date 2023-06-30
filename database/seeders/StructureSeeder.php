@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrganisationStructure;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Structure;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class OrganisationStructureSeeder extends Seeder
+class StructureSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $organisationStructures = [
+        $structures = [
             [
                 'name' => 'Subsidiary'
             ],
@@ -35,8 +35,8 @@ class OrganisationStructureSeeder extends Seeder
             ],
         ];
 
-        foreach ($organisationStructures as $organisationStructure) {
-            OrganisationStructure::firstOrCreate($organisationStructure);
+        foreach ($structures as $structure) {
+            Structure::firstOrCreate($structure);
         }
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveOrganisationStructureRequest extends FormRequest
+class SaveStructureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class SaveOrganisationStructureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'organisation_structures' => 'required|array',
-            'organisation_structures.*' => 'integer|exists:organisation_structures,id',
+            'structures' => 'required|array',
+            'structures.*' => 'integer|exists:structures,id',
         ];
     }
 }

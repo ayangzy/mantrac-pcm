@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Organisation;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateOrganisationRequest;
 use App\Http\Requests\UpdateOrganisationRequest;
 
@@ -13,7 +14,7 @@ class OrganisationController extends Controller
 
     public function index()
     {
-        $organisations = Organisation::query()->paginate(10);
+        $organisations = Organisation::query()->get();
 
         return $this->successResponse("Organisation retrieved successfully", $organisations);
     }
@@ -21,7 +22,8 @@ class OrganisationController extends Controller
 
     public function store(CreateOrganisationRequest $request)
     {
-        $organisation = Organisation::create($request->validated());
+        $request['user_id'] = Auth::id();
+        $organisation = Organisation::create($request->all());
 
         return $this->createdResponse("Organisation created successfully", $organisation);
     }

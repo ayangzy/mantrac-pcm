@@ -4,9 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\OrganisationController;
+use App\Http\Controllers\Admin\OrganisationSetupController;
 use App\Http\Controllers\Admin\OrganisationStructureController;
-use App\Models\OrganisationStructure;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,17 @@ Route::prefix('v1')->group(function () {
             Route::delete('/{id}', [OrganisationController::class, 'destroy'])->name('destroy');
         });
 
-        Route::get('organisation-structures', [OrganisationStructureController::class, 'index']);
-        Route::post('organization/{organizationId}/organization-structures', [OrganisationStructureController::class, 'store']);
+        Route::prefix('structures')->name('structures.')->group(function () {
+            Route::get('', [StructureController::class, 'index'])->name('index');
+            Route::post('', [StructureController::class, 'store'])->name('store');
+        });
+
+        Route::prefix('organisation-setups')->name('organisationSetups.')->group(function () {
+            Route::get('/', [OrganisationSetupController::class, 'index']);
+            Route::post('/', [OrganisationSetupController::class, 'store']);
+            Route::get('/{id}', [OrganisationSetupController::class, 'show']);
+            Route::patch('/{id}', [OrganisationSetupController::class, 'update']);
+            Route::delete('/{id}', [OrganisationSetupController::class, 'destroy']);
+        });
     });
 });
