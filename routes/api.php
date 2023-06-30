@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\OrganisationController;
 use App\Http\Controllers\Admin\OrganisationSetupController;
 use App\Http\Controllers\Admin\OrganisationStructureController;
+use App\Http\Controllers\Admin\UploadOrganisationSetupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,5 +52,7 @@ Route::prefix('v1')->group(function () {
             Route::patch('/{id}', [OrganisationSetupController::class, 'update']);
             Route::delete('/{id}', [OrganisationSetupController::class, 'destroy']);
         });
+
+        Route::post('organisation-setups/upload', [UploadOrganisationSetupController::class, 'uploadOrganisationSetup']);
     });
 });
