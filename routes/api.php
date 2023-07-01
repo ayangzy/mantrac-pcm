@@ -7,8 +7,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\OrganisationController;
 use App\Http\Controllers\Admin\OrganisationSetupController;
+use App\Http\Controllers\Admin\OrganisationStaffController;
 use App\Http\Controllers\Admin\OrganisationStructureController;
 use App\Http\Controllers\Admin\UploadOrganisationSetupController;
+use App\Http\Controllers\Auth\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('register', [RegisterController::class, 'register'])->name('register');
         Route::post('login', [LoginController::class, 'login'])->name('login');
+        Route::post('password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.resetPassword');
     });
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -54,5 +57,13 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::post('organisation-setups/upload', [UploadOrganisationSetupController::class, 'uploadOrganisationSetup']);
+
+        Route::prefix('organisation-staff')->name('organisationStaff.')->group(function () {
+            Route::get('',  [OrganisationStaffController::class, 'index'])->name('index');
+            Route::post('',  [OrganisationStaffController::class, 'store'])->name('store');
+            Route::get('/{id}',  [OrganisationStaffController::class, 'show'])->name('show');
+            Route::patch('/{id}',  [OrganisationStaffController::class, 'update'])->name('update');
+            Route::delete('/{id}',  [OrganisationStaffController::class, 'destroy'])->name('destroy');
+        });
     });
 });

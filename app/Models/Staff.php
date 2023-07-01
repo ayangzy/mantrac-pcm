@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Organisation extends Model
+class Staff extends Model
 {
     use HasFactory;
 
@@ -16,14 +16,13 @@ class Organisation extends Model
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
-    public function structures()
+    public function user()
     {
-        return $this->belongsToMany(Structure::class, 'organisation_structure')
-            ->withTimestamps();
+        return $this->belongsTo(User::class);
     }
 
-    public function staff()
+    public function organisation()
     {
-        return $this->hasMany(Staff::class);
+        return $this->belongsTo(Organisation::class);
     }
 }
