@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\OrganisationStructureController;
 use App\Http\Controllers\Admin\UploadOrganisationSetupController;
 use App\Http\Controllers\Admin\UploadUserJobDescriptionController;
 use App\Http\Controllers\Admin\UploadStaffJobDescriptionController;
+use App\Http\Controllers\User\UserManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,16 @@ Route::prefix('v1')->group(function () {
         Route::post('organisation-setups/upload', [UploadOrganisationSetupController::class, 'uploadOrganisationSetup']);
         Route::post('organisation-staff/upload', [BulkUploadUserController::class, 'uploadUser']);
         Route::post('organisation-staff/job-description/upload', [UploadStaffJobDescriptionController::class, 'uploadJobDescription']);
+
+        Route::prefix('user-managements')->name('userManagement.')->group(function () {
+            Route::get('/user', [UserManagementController::class, 'getUser']);
+            Route::get('/permissions', [UserManagementController::class, 'getAllPermission']);
+            Route::get('/roles', [UserManagementController::class, 'getAllRole']);
+            Route::patch('/users/{userId}/roles/{roleId}/assign-role', [UserManagementController::class, 'assignRole']);
+            Route::delete('/users/{userId}/roles/{roleId}/detach-role', [UserManagementController::class, 'detachRole']);
+            Route::patch('/users/{userId}/permissions/{permissionId}/assign-permission', [UserManagementController::class, 'assignPermission']);
+            Route::delete('/users/{userId}/permissions/{permissionId}/detach-permission', [UserManagementController::class, 'detachPermission']);
+        });
 
         Route::prefix('organisation-staff')->name('organisationStaff.')->group(function () {
             Route::get('',  [OrganisationStaffController::class, 'index'])->name('index');
