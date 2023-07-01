@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\Admin\BulkUploadUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\StructureController;
 use App\Http\Controllers\Admin\OrganisationController;
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Admin\BulkUploadUserController;
 use App\Http\Controllers\Admin\OrganisationSetupController;
 use App\Http\Controllers\Admin\OrganisationStaffController;
 use App\Http\Controllers\Admin\OrganisationStructureController;
 use App\Http\Controllers\Admin\UploadOrganisationSetupController;
-use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Admin\UploadUserJobDescriptionController;
+use App\Http\Controllers\Admin\UploadStaffJobDescriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +61,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('organisation-setups/upload', [UploadOrganisationSetupController::class, 'uploadOrganisationSetup']);
         Route::post('organisation-staff/upload', [BulkUploadUserController::class, 'uploadUser']);
+        Route::post('organisation-staff/job-description/upload', [UploadStaffJobDescriptionController::class, 'uploadJobDescription']);
 
         Route::prefix('organisation-staff')->name('organisationStaff.')->group(function () {
             Route::get('',  [OrganisationStaffController::class, 'index'])->name('index');
