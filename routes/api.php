@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BulkUploadUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -57,6 +58,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::post('organisation-setups/upload', [UploadOrganisationSetupController::class, 'uploadOrganisationSetup']);
+        Route::post('organisation-staff/upload', [BulkUploadUserController::class, 'uploadUser']);
 
         Route::prefix('organisation-staff')->name('organisationStaff.')->group(function () {
             Route::get('',  [OrganisationStaffController::class, 'index'])->name('index');
