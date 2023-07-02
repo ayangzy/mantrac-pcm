@@ -12,6 +12,6 @@ class RegisterController extends Controller
     {
         $user = (new RegisterAction())->execute($request);
 
-        return $this->successResponse('User successfully registered', $this->generateAuthData($user));
+        return $this->createdResponse('User successfully registered', (object) $this->generateAuthData($user));
     }
 }
