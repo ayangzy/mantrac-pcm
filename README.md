@@ -1,66 +1,103 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Goal/Overview 
 
-## About Laravel
+The main goal of this Laravel project is to create a simplified version of a performance management system (PM) based on the requirements specified in the BRD document(s). The project showcases understanding and application of SOLID principles and core application development.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The project primarily consists of two modules: Onboarding and Mission Plan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+For this implementation, the focus has been on developing the onboarding module.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation & Usage
+<hr/>
 
-## Learning Laravel
+### Downloading the Project
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+It is ``Important`` to note that this project requires ```PHP 8.1``` and uses laravel ```version 10.10```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+You can clone the project by running the following command in your Git Bash:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git https://github.com/ayangzy/mantrac-pcm.git
+```
+After cloning the project, navigate to the project directory and run the following command:
+```
+composer install
+```
+### Configure Environment
+To run the application you must configure the ```.env``` environment file with your database details set up. Use the following commmand to create .env file. 
+```
+cp .env.example .env
 
-## Laravel Sponsors
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Mail driver configuration
 
-### Premium Partners
+To ensure the correct functioning of the application, configure your mail driver in the .env file as follows:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Replace the username and password with your mail server credentials.
 
-## Contributing
+The application uses ```database`` queue driver, that need a database table to hold the jobs. The purpose of using this Queue driver is to offload time-consuming and resource-intensive tasks to be processed asynchronously in the background. Make sure to set the following configuration in the .env file:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+QUEUE_CONNECTION=database
+```
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Generating app key
+Run the following commands in the project directory to generate an app key:
+```
+php artisan key:generate
 
-## Security Vulnerabilities
+```
+After generating the app key, run the following command to run database migrations:
+```
+php artisan migrate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Seeding DB
+Before testing this application, it is important to note that you need to run seeders to populate the necessary data in the database. To seed the database, execute the following command in your project terminal:
+```
+php artisan db:seed
+```
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Serve your application
+To start the application, run the command 
+```
+php artisan serve
+```
+ in the project directory.
+
+## Running Queues
+The application utilizes queues to send emails to staff members, notifying them about their onboarding on the platform. The email contains a link that allows them to reset their password. Additionally, staff members are also notified through email about any updates made to their profile by their organisational admin.
+
+ To see this in action run
+``` 
+php artisan queue:work
+```
+
+
+### API Documentation
+Please find the link to the API documentation below.
+https://documenter.getpostman.com/view/11101115/2s93zCYfQ2
+## Security
+
+If you discover any security related issues, please email 
+```
+ayangefelix8@gmail.com
+```
+## Credits
+
+- [Ayange Felix](https://github.com/ayangzy)
+
+
