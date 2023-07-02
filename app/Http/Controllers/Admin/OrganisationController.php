@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Organisation;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Services\OrganisationService;
 use App\Http\Requests\CreateOrganisationRequest;
 use App\Http\Requests\UpdateOrganisationRequest;
 
@@ -12,9 +12,16 @@ use App\Http\Requests\UpdateOrganisationRequest;
 class OrganisationController extends Controller
 {
 
+    private $organisationService;
+
+    public function __construct(OrganisationService $organisationService)
+    {
+        $this->organisationService = $organisationService;
+    }
+
     public function index()
     {
-        $organisations = Organisation::query()->get();
+        $organisations = $this->organisationService->getAllOrganisations();
 
         return $this->successResponse("Organisation retrieved successfully", $organisations);
     }
@@ -23,7 +30,8 @@ class OrganisationController extends Controller
     public function store(CreateOrganisationRequest $request)
     {
         $request['user_id'] = Auth::id();
-        $organisation = Organisation::create($request->all());
+
+        $organisation = $this->organisationService->createOrganisation($request->all());
 
         return $this->createdResponse("Organisation created successfully", $organisation);
     }
@@ -31,11 +39,7 @@ class OrganisationController extends Controller
 
     public function show($id)
     {
-        $organisation = Organisation::find($id);
-
-        if (!$organisation) {
-            return $this->notFoundAlert("Organisation not found");
-        }
+        $organisation = $this->organisationService->getOrganisationById($id);
 
         return $this->successResponse("Organisation retrieved successfully", $organisation);
     }
@@ -43,13 +47,7 @@ class OrganisationController extends Controller
 
     public function update(UpdateOrganisationRequest $request, $id)
     {
-        $organisation = Organisation::find($id);
-
-        if (!$organisation) {
-            return $this->notFoundAlert("Organisation not found");
-        }
-
-        $organisation->update($request->validated());
+        $organisation = $this->organisationService->updateOrganisation($id, $request->validated());
 
         return $this->successResponse("Organisation updated successfully", $organisation);
     }
@@ -57,13 +55,7 @@ class OrganisationController extends Controller
 
     public function destroy($id)
     {
-        $organisation = Organisation::find($id);
-
-        if (!$organisation) {
-            return $this->notFoundAlert("Organisation not found");
-        }
-
-        $organisation->delete();
+        $organisation = $this->organisationService->deleteOrganisation($id);
 
         return $this->successResponse("Organisation deleted successfully");
     }
