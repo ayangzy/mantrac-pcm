@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UploadOrganisationSetupController;
 use App\Http\Controllers\Admin\UploadUserJobDescriptionController;
 use App\Http\Controllers\Admin\UploadStaffJobDescriptionController;
 use App\Http\Controllers\User\UserManagementController;
+use App\Http\Controllers\User\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,5 +82,7 @@ Route::prefix('v1')->group(function () {
             Route::patch('/{id}',  [OrganisationStaffController::class, 'update'])->name('update');
             Route::delete('/{id}',  [OrganisationStaffController::class, 'destroy'])->name('destroy');
         });
+
+        Route::get('user-profile', [UserProfileController::class, 'getUserProfile']);
     });
 });

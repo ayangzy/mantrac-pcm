@@ -19,7 +19,7 @@ class OrganisationStaffService
 
     public function getStaffMembers()
     {
-        $organization = Organisation::where('user_id', Auth::id())->first()->id;
+        $organization = Organisation::where('user_id', Auth::id())->firstOrFail()->id;
 
         $staff = Staff::whereHas('organisation', function ($query) use ($organization) {
             $query->where('id', $organization);
