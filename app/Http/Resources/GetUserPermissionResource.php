@@ -18,8 +18,8 @@ class GetUserPermissionResource extends JsonResource
             'id' => $this->user->id,
             'full_name' => $this->user->full_name,
             'email' => $this->user->email,
-            'role' => $this->user->roles->first()->name ?? null,
-            'permission' => $this->permission,
+            'role' => $this->user->roles->pluck('name')->all(),
+            'permission' => $this->user->getAllPermissions()->pluck('name'),
             'created_at' => $this->user->created_at,
             'updated_at' => $this->user->updated_at
         ];

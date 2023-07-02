@@ -19,7 +19,7 @@ class LoginAction
 
     private function getAuthenticatedUser($request): ?User
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::with(['permissions', 'roles'])->where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw new BadRequestException('The provided credentials are incorrect.');

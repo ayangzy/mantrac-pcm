@@ -12,6 +12,6 @@ class UserProfileController extends Controller
     {
         $user = User::with('staff')->where('id', Auth::id())->firstOrFail();
 
-        return $user;
+        return $this->successResponse('user profile retreived successfully', $user);
     }
 }
