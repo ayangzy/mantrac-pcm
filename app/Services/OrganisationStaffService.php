@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Exceptions\NotFoundException;
 use App\Traits\GeneratePasswordResetToken;
 use App\Mail\OrganisationStaffOnboardingMail;
+use App\Mail\SendStaffProfileUpdatedNotificationMail;
 
 class OrganisationStaffService
 {
@@ -78,6 +79,8 @@ class OrganisationStaffService
 
         $staff->fill($staffData);
         $staff->save();
+
+        Mail::to($user->email)->send(new SendStaffProfileUpdatedNotificationMail($user));
 
         return $staff;
     }
